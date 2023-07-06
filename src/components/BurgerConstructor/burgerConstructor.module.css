@@ -1,0 +1,37 @@
+
+.list{
+    overflow: auto;
+    height: 464px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.order{
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+}
+
+.total{
+    display: flex;
+    gap:8px;
+    align-items: center;
+}
+
+.total svg{
+width:36px;
+height: 36px;
+}
+
+
