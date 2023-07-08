@@ -1,3 +1,7 @@
+.section {
+    width: 600px;
+}
+
 .tab {
     display: flex;
 }
@@ -8,7 +12,7 @@
     width: 600px;
 }
 
-.container{
+.container {
     display: flex;
     gap: 24px;
     flex-direction: column;
@@ -17,28 +21,7 @@
 .list {
     display: flex;
     list-style: none;
-    margin:0;
+    margin: 0;
     gap: 24px;
     flex-wrap: wrap;
-}
-
-.item{ 
-width: 272px;
-min-height: 208px;
-display: flex;
-flex-direction: column;
-align-items: center;
-flex-wrap: wrap;
-}
-
-.price {
-    margin: 0   ;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-
-.custom-scroll {
-    height: 600px;
 }
