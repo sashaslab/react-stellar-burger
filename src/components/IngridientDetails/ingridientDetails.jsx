@@ -1,5 +1,7 @@
 import style from "./ingridientDetails.module.css";
 import PropTypes from "prop-types";
+import {ingredientPropType} from "../../utils/prop-types"
+
 
 function IngridientDetails({ ingridient }) {
     return (
@@ -30,20 +32,7 @@ function IngridientDetails({ ingridient }) {
 }
 
 IngridientDetails.propTypes = {
-    ingridient: PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number
-    })
+    ingridient: ingredientPropType.isRequired
 }
 
 export default IngridientDetails

@@ -5,6 +5,7 @@ import Modal from "../Modal/modal";
 import IngridientCard from "../IngridientCard/ingridientCard";
 import IngridientDetails from "../IngridientDetails/ingridientDetails";
 import PropTypes from "prop-types";
+import {ingredientPropType} from "../../utils/prop-types"
 
 function BurgerIngridients({ ingridients }) {
     const bun = ingridients.filter(item => item.type === 'bun');
@@ -77,20 +78,7 @@ function BurgerIngridients({ ingridients }) {
 }
 
 BurgerIngridients.propTypes = {
-    ingridients: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number
-    }))
+    ingridients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
 }
 
 export default BurgerIngridients
