@@ -1,15 +1,48 @@
 import styles from "./app.module.css";
-import { data } from "../../utils/data";
+import AppHeader from '../AppHeader/appHeader.jsx'
+import BurgerIngridients from "../BurgerIngridients/burgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
+import React from 'react'
 
 function App() {
+
+  const [state, setState] = React.useState([]);
+  const URL = `https://norma.nomoreparties.space/api/ingredients`;
+
+  React.useEffect(() => {
+    getIngridients()
+  }, [])
+
+  const onResponse = (res) => {
+    return res.ok
+      ? res.json()
+      : Promise.reject(`Ошибка: ${res.status}`);
+  }
+  const getData = () => {
+    return fetch(URL)
+      .then(onResponse)
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  function getIngridients() {
+    getData()
+      .then((res) => {
+        setState(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
     <div className={styles.app}>
-      <pre style={{
-      	margin: "auto",
-      	fontSize: "1.5rem"
-      }}>
-      	Измените src/components/app/app.jsx и сохраните для обновления.
-      </pre>
+      <AppHeader />
+      <main className={styles.main}>
+        {state.length && (<BurgerIngridients ingridients={state} />)}
+        {state.length && (<BurgerConstructor ingridients={state} />)}
+      </main>
     </div>
   );
 }
