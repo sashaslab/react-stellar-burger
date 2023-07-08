@@ -1,26 +1,31 @@
 import React from 'react';
-import { Button, CurrencyIcon, LockIcon, DragIcon, DeleteIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { data } from '../../utils/data';
-import constructorStyle from './burgerConstructor.module.css'
+import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import style from './burgerConstructor.module.css';
+import Modal from "../Modal/modal";
+import OrderDetails from "../OrderDetails/orderDetails";
+import PropTypes from "prop-types";
 
-function BurgerConstructor() {
+function BurgerConstructor({ ingridients }) {
+    const [open, setOpen] = React.useState(false);
+
+
     return (
-        <>
+        <section className={`${style.section} pt-25 mr-5`}>
             <div className='pl-4 pb-10'>
                 <div className='ml-8 mr-4 pb-4'>
-                <ConstructorElement
-                    type="top"
-                    isLocked={true}
-                    text={`${data[0].name} (верх)`}
-                    price={data[0].price}
-                    thumbnail={data[0].image}
-                />
+                    <ConstructorElement
+                        type="top"
+                        isLocked={true}
+                        text={`${ingridients[0].name} (верх)`}
+                        price={ingridients[0].price}
+                        thumbnail={ingridients[0].image}
+                    />
                 </div>
-                <ul className={`${constructorStyle.list} custom-scroll`}>
-                    {data.map((item) => {
+                <ul className={`${style.list} custom-scroll`}>
+                    {ingridients.map((item) => {
                         if (item.type !== 'bun') {
                             return (
-                                <li key={item._id} className={`${constructorStyle.item}`}><DragIcon />
+                                <li key={item._id} className={`${style.item}`}><DragIcon />
                                     <ConstructorElement
                                         text={item.name}
                                         price={item.price}
@@ -31,25 +36,42 @@ function BurgerConstructor() {
                     })}
                 </ul>
                 <div className='ml-8 mr-4 pt-4'>
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}
-                    text={`${data[0].name} (низ)`}
-                    price={data[0].price}
-                    thumbnail={data[0].image}
-                />
+                    <ConstructorElement
+                        type="bottom"
+                        isLocked={true}
+                        text={`${ingridients[0].name} (низ)`}
+                        price={ingridients[0].price}
+                        thumbnail={ingridients[0].image}
+                    />
                 </div>
             </div>
-            <div className={`${constructorStyle.order} pr-4`}>
-                <p className={`${constructorStyle.total} text text_type_digits-medium`} >{data.reduce((s, i) => s = s + i.price, 267)} <CurrencyIcon type="primary" />
+            <div className={`${style.order} pr-4`}>
+                <p className={`${style.total} text text_type_digits-medium`} >19010 <CurrencyIcon type="primary" />
                 </p>
-                <Button htmlType="button" type="primary" size="large">
+                <Button htmlType="button" type="primary" size="large" onClick={() => setOpen(true)}>
                     Оформить заказ
                 </Button>
             </div>
-
-        </>
+            {open && (<Modal closeModal={() => setOpen(false)}><OrderDetails /> </Modal>)}
+        </section>
     )
+}
+
+BurgerConstructor.propTypes = {
+    ingridients: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string,
+        proteins: PropTypes.number,
+        fat: PropTypes.number,
+        carbohydrates: PropTypes.number,
+        calories: PropTypes.number,
+        price: PropTypes.number,
+        image: PropTypes.string,
+        image_mobile: PropTypes.string,
+        image_large: PropTypes.string,
+        __v: PropTypes.number
+    }))
 }
 
 export default BurgerConstructor 
