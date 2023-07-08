@@ -6,7 +6,7 @@
     max-width: 1280px;
     position: relative;
     margin: 0 auto;
-
+    
 }
 
 .logo {
@@ -25,11 +25,11 @@
 }
 
 .item {
-    display: flex;
+display: flex;
 }
 
 .item:first-child {
-    width: 178px
+    width:178px
 }
 
 .item:last-of-type {
@@ -37,8 +37,8 @@
 }
 
 .link {
-    display: flex;
-    justify-items: center;
-    text-decoration: none;
-    color: #F2F2F3;
+display: flex;
+justify-items: center;
+text-decoration: none;
+color: #F2F2F3;
 }

@@ -1,38 +1,37 @@
-.section {
-    width: 600px;
-}
 
-.list {
-    display: flex;
-    flex-direction: column;
+.list{
+    overflow: auto;
+    height: 464px;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
-    height: 464px;
     list-style: none;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
 }
 
 .item {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     gap: 8px;
 }
 
-.order {
+.order{
     display: flex;
     justify-content: flex-end;
     gap: 40px;
 }
 
-.total {
+.total{
     display: flex;
+    gap:8px;
     align-items: center;
-    gap: 8px;
 }
 
-.total svg {
-    width: 36px;
-    height: 36px;
+.total svg{
+width:36px;
+height: 36px;
 }
+
+
