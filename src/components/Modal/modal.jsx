@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("modal");
 
-function Modal ({ children, closeModal }) {
+function Modal({ children, closeModal }) {
     React.useEffect(() => {
         const closeEscape = (e) => {
             if (e.key === "Escape") {
@@ -42,7 +42,7 @@ function Modal ({ children, closeModal }) {
     );
 }
 
-Modal.propTypes ={
+Modal.propTypes = {
     children: PropTypes.element,
     closeModal: PropTypes.func
 }

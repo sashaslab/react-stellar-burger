@@ -1,48 +1,20 @@
 import styles from "./app.module.css";
 import AppHeader from '../AppHeader/appHeader.jsx'
-import BurgerIngridients from "../BurgerIngridients/burgerIngredients";
+import BurgerIngredients from "../BurgerIngredients/burgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
-import React from 'react'
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-
-  const [state, setState] = React.useState([]);
-  const URL = `https://norma.nomoreparties.space/api/ingredients`;
-
-  React.useEffect(() => {
-    getIngridients()
-  }, [])
-
-  const onResponse = (res) => {
-    return res.ok
-      ? res.json()
-      : Promise.reject(`Ошибка: ${res.status}`);
-  }
-  const getData = () => {
-    return fetch(URL)
-      .then(onResponse)
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  function getIngridients() {
-    getData()
-      .then((res) => {
-        setState(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
   return (
     <div className={styles.app}>
       <AppHeader />
-      <main className={styles.main}>
-        {state.length && (<BurgerIngridients ingridients={state} />)}
-        {state.length && (<BurgerConstructor ingridients={state} />)}
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
     </div>
   );
 }

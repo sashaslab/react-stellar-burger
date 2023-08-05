@@ -36,3 +36,8 @@
     width: 36px;
     height: 36px;
 }
+
+.title {
+    margin: auto 0;
+    text-align: center;
+}
