@@ -1,15 +1,20 @@
 import styles from "./app.module.css";
-import { data } from "../../utils/data";
+import AppHeader from '../AppHeader/appHeader.jsx'
+import BurgerIngredients from "../BurgerIngredients/burgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   return (
     <div className={styles.app}>
-      <pre style={{
-      	margin: "auto",
-      	fontSize: "1.5rem"
-      }}>
-      	Измените src/components/app/app.jsx и сохраните для обновления.
-      </pre>
+      <AppHeader />
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
     </div>
   );
 }

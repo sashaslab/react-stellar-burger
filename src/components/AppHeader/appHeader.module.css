@@ -1,0 +1,44 @@
+.header {
+    background-color: #1c1c21;
+}
+
+.header_desktop {
+    max-width: 1280px;
+    position: relative;
+    margin: 0 auto;
+
+}
+
+.logo {
+    position: absolute;
+    left: 495px;
+    top: 20px;
+}
+
+.list {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.item:first-child {
+    width: 178px
+}
+
+.item:last-of-type {
+    margin-left: auto;
+}
+
+.link {
+    display: flex;
+    justify-items: center;
+    text-decoration: none;
+    color: #F2F2F3;
+}
