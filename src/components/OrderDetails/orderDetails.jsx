@@ -1,9 +1,10 @@
 import style from './orderDetails.module.css'
 import done from "../../images/done.svg"
 import { useSelector } from 'react-redux';
+import { getOrderDetails } from '../../services/selectors';
 
 function OrderDetails() {
-    const { details } = useSelector(state => state.orderDetails)
+    const { details } = useSelector(getOrderDetails)
     return (
         <div className={`${style.content} pt-30 pb-30 pl-10 pr-10`}>
             <p className="text text_type_digits-large">{details.number}</p>

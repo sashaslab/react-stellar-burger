@@ -8,9 +8,10 @@ import { addConstructorIngredient, addConstructorBun, moveConstructorIngredient,
 import { postOrder } from '../../services/actions/orderDetails'
 import { useDrop } from 'react-dnd';
 import Ingredient from '../Ingredient/ingredient'
+import { getBurgerConstructor } from '../../services/selectors';
 
 function BurgerConstructor() {
-    const { ingredients, bun } = useSelector(state => state.burgerConstructor);
+    const { ingredients, bun } = useSelector(getBurgerConstructor);
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
     const ingredientId = ingredients.map((item) => item._id)

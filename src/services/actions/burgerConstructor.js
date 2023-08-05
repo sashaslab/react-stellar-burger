@@ -19,7 +19,7 @@ export const addConstructorBun = (item) => {
 }
 
 export const deleteConstructorIngredient = (item) => {
-   return {
+    return {
         type: CONSTRUCTOR_DELETE,
         payload: item
     }

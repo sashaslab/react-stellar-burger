@@ -5,9 +5,10 @@ import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { getBurgerConstructor } from '../../services/selectors';
 
 function IngredientCard({ ingredient, openModal }) {
-    const { ingredients, bun } = useSelector(state => state.burgerConstructor)
+    const { ingredients, bun } = useSelector(getBurgerConstructor)
     let countBun = 0
 
     const count = React.useMemo(() => {

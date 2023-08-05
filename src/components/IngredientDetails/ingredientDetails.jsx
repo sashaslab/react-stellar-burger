@@ -1,9 +1,10 @@
 import style from "./ingredientDetails.module.css";
 import { useSelector } from 'react-redux';
+import { getIngredientDetails } from "../../services/selectors";
 
 
 function IngredientDetails() {
-    const { ingredient } = useSelector(state => state.ingredientDetails)
+    const { ingredient } = useSelector(getIngredientDetails)
 
     return (
         <div className={`${style.content} pt-10 pb-15 pl-10 pr-10`}>

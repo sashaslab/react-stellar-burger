@@ -8,18 +8,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from "../../services/actions/burgerIngredients";
 import { detailsOpen, detailsClose } from "../../services/actions/ingredientDetails";
 import { useInView } from "react-intersection-observer";
+import { getBurgerIngredients } from "../../services/selectors";
 
 function BurgerIngredients() {
-    const { ingredients } = useSelector(state => state.burgerIngredients);
+    const { ingredients } = useSelector(getBurgerIngredients);
     const bun = ingredients.filter(item => item.type === 'bun');
     const sauce = ingredients.filter(item => item.type === 'sauce');
     const main = ingredients.filter(item => item.type === 'main');
-    const [current, setCurrent] = React.useState('one')
+    const [current, setCurrent] = React.useState('buns')
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
-    const [oneRef, oneInView] = useInView({ threshold: 0.1 })
-    const [twoRef, twoInView] = useInView({ threshold: 0.1 })
-    const [threeRef, threeInView] = useInView({ threshold: 0.1 })
+    const [bunRef, bunInView] = useInView({ threshold: 0.1 })
+    const [sauceRef, sauceInView] = useInView({ threshold: 0.1 })
+    const [mainRef, mainInView] = useInView({ threshold: 0.1 })
 
     React.useEffect(() => {
         dispatch(getIngredients());
@@ -43,34 +44,34 @@ function BurgerIngredients() {
     };
 
     React.useEffect(() => {
-        if (oneInView) {
-            setCurrent('one')
-        } else if (twoInView) {
-            setCurrent('two')
-        } else if (threeInView) {
-            setCurrent('three')
+        if (bunInView) {
+            setCurrent('bun')
+        } else if (sauceInView) {
+            setCurrent('sauce')
+        } else if (mainInView) {
+            setCurrent('main')
         }
-    }, [oneInView, twoInView, threeInView])
+    }, [bunInView, sauceInView, mainInView])
 
     return (
         <>
             <section className={`${style.section} pt-10 ml-5`}>
                 <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
                 <div className={`${style.tab} pb-10`}>
-                    <Tab value="one" active={current === 'one'} onClick={tabScroll}>
+                    <Tab value="bun" active={current === 'bun'} onClick={tabScroll}>
                         Булки
                     </Tab>
-                    <Tab value="two" active={current === 'two'} onClick={tabScroll}>
+                    <Tab value="sauce" active={current === 'sauce'} onClick={tabScroll}>
                         Соусы
                     </Tab>
-                    <Tab value="three" active={current === 'three'} onClick={tabScroll}>
+                    <Tab value="main" active={current === 'main'} onClick={tabScroll}>
                         Начинки
                     </Tab>
                 </div>
                 <div className={`${style.products} custom-scroll`}>
                     <div className={`${style.container} pb-10`}>
-                        <h2 className="text text_type_main-medium" id="one">Булки</h2>
-                        <ul ref={oneRef} className={`${style.list} pl-4`}>
+                        <h2 className="text text_type_main-medium" id="bun">Булки</h2>
+                        <ul ref={bunRef} className={`${style.list} pl-4`}>
                             {bun.map((item) => (
                                 <IngredientCard key={item._id} ingredient={item} openModal={() => {
                                     setOpen(true)
@@ -81,8 +82,8 @@ function BurgerIngredients() {
                         </ul>
                     </div>
                     <div className={`${style.table} pb-10`}>
-                        <h2 className="text text_type_main-medium pb-6" id="two">Соусы</h2>
-                        <ul ref={twoRef} className={`${style.list} pl-4`}>
+                        <h2 className="text text_type_main-medium pb-6" id="sauce">Соусы</h2>
+                        <ul ref={sauceRef} className={`${style.list} pl-4`}>
                             {sauce.map((item) => (
                                 <IngredientCard key={item._id} ingredient={item} openModal={() => {
                                     setOpen(true)
@@ -92,8 +93,8 @@ function BurgerIngredients() {
                         </ul>
                     </div>
                     <div className={`${style.table}`}>
-                        <h2 className="text text_type_main-medium pb-6" id="three">Ничинки</h2>
-                        <ul ref={threeRef} className={`${style.list} pl-4`}>
+                        <h2 className="text text_type_main-medium pb-6" id="main">Ничинки</h2>
+                        <ul ref={mainRef} className={`${style.list} pl-4`}>
                             {main.map((item) => (
                                 <IngredientCard key={item._id} ingredient={item} openModal={() => {
                                     setOpen(true)
