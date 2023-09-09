@@ -40,5 +40,9 @@
     display: flex;
     justify-items: center;
     text-decoration: none;
+    gap: 8px;
+}
+
+.link_active {
     color: #F2F2F3;
 }

@@ -4,11 +4,17 @@ import ReactDOM from 'react-dom';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/modalOverlay";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 
 const modalRoot = document.getElementById("modal");
 
-function Modal({ children, closeModal }) {
+function Modal({ children }) {
+    const navigate = useNavigate();
+    const closeModal = () => {
+        navigate(-1);
+    }
+
     React.useEffect(() => {
         const closeEscape = (e) => {
             if (e.key === "Escape") {

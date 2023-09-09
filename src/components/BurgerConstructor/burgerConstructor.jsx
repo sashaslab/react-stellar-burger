@@ -8,13 +8,16 @@ import { addConstructorIngredient, addConstructorBun, moveConstructorIngredient,
 import { postOrder } from '../../services/actions/orderDetails'
 import { useDrop } from 'react-dnd';
 import Ingredient from '../Ingredient/ingredient'
-import { getBurgerConstructor } from '../../services/selectors';
+import { getBurgerConstructor, getUserState } from '../../services/selectors';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
     const { ingredients, bun } = useSelector(getBurgerConstructor);
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
     const ingredientId = ingredients.map((item) => item._id)
+    const { user } = useSelector(getUserState)
+    const navigate = useNavigate();
 
     const addIngredient = (item) => {
         const ingredient = { ...item }
@@ -62,9 +65,13 @@ function BurgerConstructor() {
     }
 
     function sendOrder() {
-        const allId = [...ingredientId, bun._id]
-        dispatch(postOrder(allId));
-        dispatch(resetConstructor())
+        if (user) {
+            const allId = [...ingredientId, bun._id]
+            dispatch(postOrder(allId));
+            dispatch(resetConstructor())
+        } else {
+            navigate('/login')
+        }
     }
 
     return (

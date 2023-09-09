@@ -5,10 +5,3 @@
   background-color: #131316;
   color: #f2f2f3;
 }
-
-.main {
-  width: 1280px;
-  display: flex;
-  margin: 0 auto;
-  gap: 40px;
-}

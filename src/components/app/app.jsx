@@ -1,20 +1,52 @@
 import styles from "./app.module.css";
 import AppHeader from '../AppHeader/appHeader.jsx'
-import BurgerIngredients from "../BurgerIngredients/burgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { Routes, Route, useLocation } from "react-router-dom";
+import HomePage from "../../pages/homePage";
+import Login from "../../pages/login";
+import Register from "../../pages/register";
+import ForgotPassword from "../../pages/forgotPassword";
+import ResetPassword from "../../pages/resetPassword";
+import Profile from "../../pages/profile";
+import IngredientInfo from "../../pages/ingredientInfo";
+import Modal from "../Modal/modal";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { getIngredients } from "../../services/actions/burgerIngredients";
+import { OnlyAuth, OnlyUnAuth } from "../ProtectedRouteElement/protectedRouteElement";
+import { checkUserAuth } from "../../utils/burger-api";
+import Feed from "../../pages/feed";
+import HistoryOrders from "../../pages/historyOrders";
 
 function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getIngredients());
+    dispatch(checkUserAuth())
+  }, []);
+
   return (
     <div className={styles.app}>
       <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </main>
-      </DndProvider>
+      <Routes location={background || location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
+        <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
+        <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
+        <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword />} />} />
+        <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
+          <Route path="/profile/orders" element={<HistoryOrders />} />
+        </Route>
+        <Route path="/ingredients/:id" element={<IngredientInfo />} />
+        <Route path="/feed" element={<Feed />} />
+      </Routes>
+      {background && (
+        <Routes>
+          <Route path="/ingredients/:id" element={<Modal><IngredientInfo /></Modal>} />
+        </Routes>
+      )}
     </div>
   );
 }

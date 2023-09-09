@@ -1,14 +1,12 @@
 import React from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burgerIngredients.module.css';
-import Modal from "../Modal/modal";
 import IngredientCard from "../IngredientCard/ingredientCard";
-import IngredientDetails from "../IngredientDetails/ingredientDetails";
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from "../../services/actions/burgerIngredients";
-import { detailsOpen, detailsClose } from "../../services/actions/ingredientDetails";
 import { useInView } from "react-intersection-observer";
 import { getBurgerIngredients } from "../../services/selectors";
+import { Link, useLocation } from "react-router-dom";
 
 function BurgerIngredients() {
     const { ingredients } = useSelector(getBurgerIngredients);
@@ -16,24 +14,16 @@ function BurgerIngredients() {
     const sauce = ingredients.filter(item => item.type === 'sauce');
     const main = ingredients.filter(item => item.type === 'main');
     const [current, setCurrent] = React.useState('buns')
-    const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
     const [bunRef, bunInView] = useInView({ threshold: 0.1 })
     const [sauceRef, sauceInView] = useInView({ threshold: 0.1 })
     const [mainRef, mainInView] = useInView({ threshold: 0.1 })
+    const location = useLocation();
 
     React.useEffect(() => {
         dispatch(getIngredients());
     }, [dispatch]
     );
-
-    function openModal(item) {
-        dispatch(detailsOpen(item))
-    }
-
-    function closeModal() {
-        dispatch(detailsClose())
-    }
 
     const tabScroll = (tab) => {
         setCurrent(tab)
@@ -73,11 +63,9 @@ function BurgerIngredients() {
                         <h2 className="text text_type_main-medium" id="bun">Булки</h2>
                         <ul ref={bunRef} className={`${style.list} pl-4`}>
                             {bun.map((item) => (
-                                <IngredientCard key={item._id} ingredient={item} openModal={() => {
-                                    setOpen(true)
-                                    openModal(item)
-                                }} />
-
+                                <Link className={style.link} key={item._id} to={`/ingredients/${item._id}`} state={{ background: location }}>
+                                    <IngredientCard ingredient={item} />
+                                </Link>
                             ))}
                         </ul>
                     </div>
@@ -85,10 +73,9 @@ function BurgerIngredients() {
                         <h2 className="text text_type_main-medium pb-6" id="sauce">Соусы</h2>
                         <ul ref={sauceRef} className={`${style.list} pl-4`}>
                             {sauce.map((item) => (
-                                <IngredientCard key={item._id} ingredient={item} openModal={() => {
-                                    setOpen(true)
-                                    openModal(item)
-                                }} />
+                                <Link className={style.link} key={item._id} to={`/ingredients/${item._id}`} state={{ background: location }}>
+                                    <IngredientCard ingredient={item} />
+                                </Link>
                             ))}
                         </ul>
                     </div>
@@ -96,21 +83,13 @@ function BurgerIngredients() {
                         <h2 className="text text_type_main-medium pb-6" id="main">Ничинки</h2>
                         <ul ref={mainRef} className={`${style.list} pl-4`}>
                             {main.map((item) => (
-                                <IngredientCard key={item._id} ingredient={item} openModal={() => {
-                                    setOpen(true)
-                                    openModal(item)
-                                }} />
+                                <Link className={style.link} key={item._id} to={`/ingredients/${item._id}`} state={{ background: location }}>
+                                    <IngredientCard ingredient={item} />
+                                </Link>
                             ))}
                         </ul>
                     </div>
                 </div>
-                {open && <Modal closeModal={() => {
-                    setOpen(false);
-                    closeModal();
-                }}>
-                    <IngredientDetails />
-                </Modal>
-                }
             </section>
         </>
     )
