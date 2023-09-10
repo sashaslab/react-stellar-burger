@@ -1,25 +1,16 @@
-import { EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components"
-import React from "react"
+import { EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './form.module.css'
 import { Link } from "react-router-dom"
 import { login } from "../utils/burger-api"
 import { useDispatch } from "react-redux"
+import { useForm } from "../hooks/useForm"
 
 function Login() {
     const dispatch = useDispatch();
-    const [value, setValue] = React.useState({
-        email: '',
-        password: ''
-    })
-    const onChange = (e) => {
-        setValue({
-            ...value,
-            [e.target.name]: e.target.value
-        })
-    }
+    const { values, handleChange } = useForm({ email: '', password: '' })
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(value.email, value.password))
+        dispatch(login(values.email, values.password))
     }
 
     return (
@@ -27,14 +18,14 @@ function Login() {
             <form className={style.form} onSubmit={onSubmit}>
                 <h2 className={`${style.title} text text_type_main-medium`}>Вход</h2>
                 <EmailInput
-                    onChange={onChange}
-                    value={value.email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     isIcon={false}
                 />
                 <PasswordInput
-                    onChange={onChange}
-                    value={value.password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                 />
                 <div className={style.button}>

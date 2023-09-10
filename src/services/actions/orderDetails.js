@@ -10,16 +10,10 @@ export const postOrder = (ingredients) => {
         })
         postOrders(ingredients)
             .then((res) => {
-                if (res && res.success) {
-                    dispatch({
-                        type: POST_ORDER,
-                        payload: res.order
-                    })
-                } else {
-                    dispatch({
-                        type: POST_ORDER_FAILED
-                    })
-                }
+                dispatch({
+                    type: POST_ORDER,
+                    payload: res.order
+                })
             })
             .catch(err => {
                 dispatch({

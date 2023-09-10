@@ -2,32 +2,41 @@ import { setUser, setAuthChecked } from "../services/actions/user";
 
 const URL = 'https://norma.nomoreparties.space/api';
 
-
 const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
   return res.json().then((err) => Promise.reject(err));
 };
-export async function getData() {
-  const res = await fetch(`${URL}/ingredients`);
-  return checkResponse(res);
+
+const checkSuccess = (res) => {
+  if (res && res.success) {
+    return res
+  }
+  return Promise.reject(`Ошибка, ответ сервера: ${res}`)
 }
 
-export async function postOrders(ingredients) {
-  const res = await fetch(`${URL}/orders`, {
+function request(endpoint, options) {
+  return fetch(`${URL}${endpoint}`, options).then(checkResponse).then(checkSuccess)
+}
+
+export function getData() {
+  return request('/ingredients')
+}
+
+export function postOrders(ingredients) {
+  return request('/orders', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       ingredients
     })
-  });
-  return checkResponse(res);
+  })
 }
 
 export function register(name, email, password) {
   return (dispatch) => {
-    return fetch(`${URL}/auth/register`, {
+    return request('/auth/register', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -38,16 +47,11 @@ export function register(name, email, password) {
         password
       })
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          localStorage.setItem("accessToken", res.accessToken);
-          localStorage.setItem("refreshToken", res.refreshToken);
-          dispatch(setUser(res.user));
-          dispatch(setAuthChecked(true));
-        } else {
-          return Promise.reject("Ошибка данных с сервера");
-        }
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        dispatch(setUser(res.user));
+        dispatch(setAuthChecked(true));
       })
       .catch((err) => {
         console.log(err);
@@ -57,7 +61,7 @@ export function register(name, email, password) {
 
 export const login = (email, password) => {
   return (dispatch) => {
-    return fetch(`${URL}/auth/login`, {
+    return request('/auth/login', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -67,26 +71,21 @@ export const login = (email, password) => {
         password
       })
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          localStorage.setItem("accessToken", res.accessToken);
-          localStorage.setItem("refreshToken", res.refreshToken);
-          dispatch(setUser(res.user));
-          dispatch(setAuthChecked(true));
-        } else {
-          return Promise.reject("Ошибка данных с сервера");
-        }
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        dispatch(setUser(res.user));
+        dispatch(setAuthChecked(true));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
       })
   };
 };
 
 export const logout = () => {
   return (dispatch) => {
-    return fetch(`${URL}/auth/logout`, {
+    return request('/auth/logout', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -95,25 +94,20 @@ export const logout = () => {
         token: localStorage.getItem("refreshToken")
       })
     })
-      .then(checkResponse)
-      .then((res) => {
-        if (res.success) {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          dispatch(setUser(null));
-          dispatch(setAuthChecked(false));
-        } else {
-          return Promise.reject("Ошибка данных с сервера");
-        }
+      .then(() => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        dispatch(setUser(null));
+        dispatch(setAuthChecked(false));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
       })
   };
 };
 
 const refreshToken = () => {
-  return fetch(`${URL}/auth/token`, {
+  return request('/auth/token', {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -122,7 +116,6 @@ const refreshToken = () => {
       token: localStorage.getItem("refreshToken")
     })
   })
-    .then(checkResponse)
 };
 
 const fetchWithRefresh = async (url, options) => {
@@ -182,7 +175,7 @@ export const checkUserAuth = () => {
 };
 
 export const forgotPassword = (email) => {
-  return fetch(`${URL}/password-reset`, {
+  return request('/password-reset', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -191,11 +184,10 @@ export const forgotPassword = (email) => {
       email
     })
   })
-    .then(checkResponse)
 };
 
 export const resetPassword = (password, token) => {
-  return fetch(`${URL}/password-reset/reset`, {
+  return request('/password-reset/reset', {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -206,12 +198,11 @@ export const resetPassword = (password, token) => {
       token
     })
   })
-    .then(checkResponse)
 };
 
 export const updateProfile = (name, email, password) => {
   return (dispatch) => {
-    return fetch(`${URL}/auth/user`, {
+    return request('/auth/user', {
       method: "PATCH",
       headers: {
         authorization: localStorage.getItem("accessToken"),
@@ -223,20 +214,18 @@ export const updateProfile = (name, email, password) => {
         password
       })
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch(setUser(res.user));
-          refreshToken()
-            .then((res) => {
-              if (res.success) {
-                localStorage.setItem("refreshToken", res.refreshToken);
-                localStorage.setItem("accessToken", res.accessToken);
-              }
-            })
-        } else {
-          return Promise.reject("Ошибка данных с сервера");
-        }
-      });
+        dispatch(setUser(res.user));
+        refreshToken()
+          .then((res) => {
+            if (res.success) {
+              localStorage.setItem("refreshToken", res.refreshToken);
+              localStorage.setItem("accessToken", res.accessToken);
+            }
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 };

@@ -1,26 +1,17 @@
-import React from "react";
 import style from './form.module.css'
 import { EmailInput, PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { register } from "../utils/burger-api";
 import { useDispatch } from "react-redux";
+import { useForm } from "../hooks/useForm";
 
 function Register() {
     const dispatch = useDispatch();
-    const [value, setValue] = React.useState({
-        name: '',
-        email: '',
-        password: ''
-    })
-    const onChange = (e) => {
-        setValue({
-            ...value,
-            [e.target.name]: e.target.value
-        })
-    }
+    const { values, handleChange } = useForm({ name: '', email: '', password: '' })
+
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(register(value.name, value.email, value.password))
+        dispatch(register(values.name, values.email, values.password))
     }
 
     return (
@@ -30,19 +21,19 @@ function Register() {
                 <Input
                     type={'text'}
                     placeholder={'Имя'}
-                    onChange={onChange}
-                    value={value.name}
+                    onChange={handleChange}
+                    value={values.name}
                     name={'name'}
                 />
                 <EmailInput
-                    onChange={onChange}
-                    value={value.email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     isIcon={false}
                 />
                 <PasswordInput
-                    onChange={onChange}
-                    value={value.password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                 />
                 <div className={style.button}>

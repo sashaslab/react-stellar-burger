@@ -8,18 +8,13 @@ export const getIngredients = () => {
         dispatch({
             type: GET_INGREDIENTS_DATA
         })
-        getData().then((res) => {
-            if (res && res.success) {
+        getData()
+            .then((res) => {
                 dispatch({
                     type: GET_INGREDIENTS_SUCCESS,
                     payload: res.data,
                 })
-            } else {
-                dispatch({
-                    type: GET_INGREDIENTS_FAILED
-                })
-            }
-        })
+            })
             .catch(err => {
                 dispatch({
                     type: GET_INGREDIENTS_FAILED

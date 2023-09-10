@@ -1,34 +1,23 @@
-import React from 'react';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './profile.module.css';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserState } from '../services/selectors';
 import { logout, updateProfile } from '../utils/burger-api';
+import { useForm } from '../hooks/useForm';
 
 function Profile() {
     const dispatch = useDispatch();
     const location = useLocation();
     const { user } = useSelector(getUserState)
-    const [value, setValue] = React.useState({
-        name: user.name,
-        email: user.email,
-        password: ''
-    })
+    const { values, handleChange, setValues } = useForm({ name: user.name, email: user.email, password: '' })
     const profileLink = location.pathname === '/profile'
-
-    const onChange = (e) => {
-        setValue({
-            ...value,
-            [e.target.name]: e.target.value
-        })
-    }
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(updateProfile(value.name, value.email, value.password))
-        setValue({
-            ...value,
+        dispatch(updateProfile(values.name, values.email, values.password))
+        setValues({
+            ...values,
             password: ''
         })
     }
@@ -41,14 +30,14 @@ function Profile() {
 
     const cancel = (e) => {
         e.preventDefault()
-        setValue({
+        setValues({
             name: user.name,
             email: user.email,
             password: ''
         })
     }
 
-    const changeInput = user.name !== value.name || user.email !== value.email || value.password
+    const changeInput = user.name !== values.name || user.email !== values.email || values.password
 
 
 
@@ -70,19 +59,19 @@ function Profile() {
                     <Input
                         type={'text'}
                         placeholder={'Имя'}
-                        onChange={onChange}
-                        value={value.name}
+                        onChange={handleChange}
+                        value={values.name}
                         name={'name'}
                     />
                     <EmailInput
-                        onChange={onChange}
-                        value={value.email}
+                        onChange={handleChange}
+                        value={values.email}
                         name={'email'}
                         isIcon={true}
                     />
                     <PasswordInput
-                        onChange={onChange}
-                        value={value.password}
+                        onChange={handleChange}
+                        value={values.password}
                         name={'password'}
                         icon="EditIcon"
                     />

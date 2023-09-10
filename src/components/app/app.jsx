@@ -1,6 +1,6 @@
 import styles from "./app.module.css";
 import AppHeader from '../AppHeader/appHeader.jsx'
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import HomePage from "../../pages/homePage";
 import Login from "../../pages/login";
 import Register from "../../pages/register";
@@ -9,7 +9,7 @@ import ResetPassword from "../../pages/resetPassword";
 import Profile from "../../pages/profile";
 import IngredientInfo from "../../pages/ingredientInfo";
 import Modal from "../Modal/modal";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burgerIngredients";
 import { OnlyAuth, OnlyUnAuth } from "../ProtectedRouteElement/protectedRouteElement";
@@ -21,10 +21,15 @@ function App() {
   const location = useLocation();
   const background = location.state && location.state.background
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const closeModal = () => {
+    navigate(-1);
+  }
 
   React.useEffect(() => {
     dispatch(getIngredients());
-    dispatch(checkUserAuth())
+    dispatch(checkUserAuth());
   }, []);
 
   return (
@@ -35,7 +40,7 @@ function App() {
         <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
         <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
         <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
-        <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword />} />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
           <Route path="/profile/orders" element={<HistoryOrders />} />
         </Route>
@@ -44,7 +49,7 @@ function App() {
       </Routes>
       {background && (
         <Routes>
-          <Route path="/ingredients/:id" element={<Modal><IngredientInfo /></Modal>} />
+          <Route path="/ingredients/:id" element={<Modal closeModal={closeModal}><IngredientInfo /></Modal>} />
         </Routes>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { Logo, BurgerIcon, ProfileIcon, ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './appHeader.module.css';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 function AppHeader() {
     const linkActive = ({ isActive }) => isActive ? `${style.link} ${style.link_active} text text_type_main-default` : `${style.link}  text text_type_main-default text_color_inactive`
@@ -17,7 +17,7 @@ function AppHeader() {
         <header className={style.header}>
             <div className={style.header_desktop}>
                 <div className={style.logo}>
-                    <Logo />
+                    <Link to="/"><Logo /></Link>
                 </div>
                 <nav className='pl-5 pr-5 pt-4 pb-4'>
                     <ul className={`${style.list} pt-4 pb-4`}>

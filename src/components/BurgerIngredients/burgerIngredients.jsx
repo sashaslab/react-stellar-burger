@@ -2,8 +2,7 @@ import React from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burgerIngredients.module.css';
 import IngredientCard from "../IngredientCard/ingredientCard";
-import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from "../../services/actions/burgerIngredients";
+import { useSelector} from 'react-redux';
 import { useInView } from "react-intersection-observer";
 import { getBurgerIngredients } from "../../services/selectors";
 import { Link, useLocation } from "react-router-dom";
@@ -14,16 +13,10 @@ function BurgerIngredients() {
     const sauce = ingredients.filter(item => item.type === 'sauce');
     const main = ingredients.filter(item => item.type === 'main');
     const [current, setCurrent] = React.useState('buns')
-    const dispatch = useDispatch();
     const [bunRef, bunInView] = useInView({ threshold: 0.1 })
     const [sauceRef, sauceInView] = useInView({ threshold: 0.1 })
     const [mainRef, mainInView] = useInView({ threshold: 0.1 })
     const location = useLocation();
-
-    React.useEffect(() => {
-        dispatch(getIngredients());
-    }, [dispatch]
-    );
 
     const tabScroll = (tab) => {
         setCurrent(tab)

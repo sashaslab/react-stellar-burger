@@ -1,30 +1,20 @@
-import React from "react";
 import style from './form.module.css'
 import { EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { forgotPassword } from "../utils/burger-api";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "../hooks/useForm";
 
 function ForgotPassword() {
     const navigate = useNavigate();
-    const [value, setValue] = React.useState({
-        email: ''
-    })
-
-    const onChange = (e) => {
-        setValue({
-            ...value,
-            [e.target.name]: e.target.value
-        })
-    }
+    const { values, handleChange } = useForm({ email: '' })
 
     const onSubmit = (e) => {
         e.preventDefault();
-        forgotPassword(value.email)
+        forgotPassword(values.email)
             .then((res) => {
-                if (res.success) {
-                    navigate('/reset-password')
-                }
+                localStorage.setItem("forgotPassword", res.success)
+                navigate('/reset-password')
             })
             .catch((err) => {
                 console.log(err)
@@ -37,8 +27,8 @@ function ForgotPassword() {
                 <h2 className={`${style.title} text text_type_main-medium`}>Восстановление пароля</h2>
                 <EmailInput
                     placeholder={'Укажите e-mail'}
-                    onChange={onChange}
-                    value={value.email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     isIcon={false}
                 />

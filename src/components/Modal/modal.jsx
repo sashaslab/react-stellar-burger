@@ -9,12 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const modalRoot = document.getElementById("modal");
 
-function Modal({ children }) {
-    const navigate = useNavigate();
-    const closeModal = () => {
-        navigate(-1);
-    }
-
+function Modal({ children, closeModal }) {
     React.useEffect(() => {
         const closeEscape = (e) => {
             if (e.key === "Escape") {
