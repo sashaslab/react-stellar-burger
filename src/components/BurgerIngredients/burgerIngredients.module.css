@@ -1,0 +1,32 @@
+.section {
+    width: 600px;
+}
+
+.tab {
+    display: flex;
+}
+
+.products {
+    height: 664px;
+    overflow-y: scroll;
+    width: 600px;
+}
+
+.container {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+}
+
+.list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.link {
+    text-decoration: none;
+    color: #f2f2f3
+}
