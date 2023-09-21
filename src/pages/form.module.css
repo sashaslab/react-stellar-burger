@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+    align-items: center;
 }
 
 .title {
@@ -26,7 +27,8 @@
     align-items: center;
     gap: 16px;
 }
-.link{
+
+.link {
     color: #4C4CFF;
     text-decoration: none;
 }

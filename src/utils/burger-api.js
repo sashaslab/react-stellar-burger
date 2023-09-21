@@ -27,11 +27,18 @@ export function getData() {
 export function postOrders(ingredients) {
   return request('/orders', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: localStorage.getItem('accessToken')
+    },
     body: JSON.stringify({
       ingredients
     })
   })
+}
+
+export function getOrderServer(id) {
+  return request(`/orders/${id}`)
 }
 
 export function register(name, email, password) {
