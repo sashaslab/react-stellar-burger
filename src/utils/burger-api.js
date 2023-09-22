@@ -105,7 +105,6 @@ export const logout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         dispatch(setUser(null));
-        dispatch(setAuthChecked(false));
       })
       .catch((err) => {
         console.log(err)

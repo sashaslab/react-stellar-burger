@@ -17,6 +17,7 @@ import Feed from "../../pages/feed";
 import HistoryOrders from "../../pages/historyOrders";
 import FeedOrder from "../../pages/feedOrder";
 import ProfileOrder from "../../pages/profileOrder";
+import { checkUserAuth } from "../../utils/burger-api";
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
 
   React.useEffect(() => {
     dispatch(getIngredients());
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   return (

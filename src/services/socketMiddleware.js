@@ -1,39 +1,45 @@
-import { CONNECT, DISCONNECT, WS_CONNECTION_OPEN, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSE, WS_GET_MESSAGE, WS_SEND_MESSAGE } from '../services/actions/ws'
-
-export const socketMiddleware = () => {
+export const socketMiddleware = (wsActions) => {
   return store => {
     let socket = null;
 
     return next => action => {
       const { dispatch } = store;
       const { type, payload } = action;
+      const { 
+        wsConnect,
+        wsDisconnect,
+        wsOnOpen,
+        wsOnError,
+        wsOnClose,
+        wsOnMessage,
+        wsSendMessage } = wsActions
 
-      if (type === CONNECT) {
+      if (type === wsConnect) {
         if (!socket) {
           socket = new WebSocket(payload);
         }
       }
 
-      if (type === DISCONNECT) {
+      if (type === wsDisconnect) {
         socket.close()
         socket = null
       }
 
       if (socket) {
         socket.onopen = event => {
-          dispatch({ type: WS_CONNECTION_OPEN, payload: event });
+          dispatch({ type: wsOnOpen, payload: event });
         };
         socket.onerror = event => {
-          dispatch({ type: WS_CONNECTION_ERROR, payload: event });
+          dispatch({ type: wsOnError, payload: event });
         };
         socket.onmessage = event => {
           const { data } = event;
-          dispatch({ type: WS_GET_MESSAGE, payload: JSON.parse(data) });
+          dispatch({ type: wsOnMessage, payload: JSON.parse(data) });
         };
         socket.onclose = event => {
-          dispatch({ type: WS_CONNECTION_CLOSE, payload: event });
+          dispatch({ type: wsOnClose, payload: event });
         };
-        if (type === WS_SEND_MESSAGE) {
+        if (type === wsSendMessage) {
           const message = payload;
           socket.send(JSON.stringify(message));
         }

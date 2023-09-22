@@ -6,6 +6,16 @@ export const WS_CONNECTION_CLOSE = 'WS_CONNECTION_CLOSE';
 export const WS_GET_MESSAGE = 'WS_GET_MESSAGE';
 export const WS_SEND_MESSAGE = 'WS_SEND_MESSAGE';
 
+export const wsActions = {
+    wsConnect: CONNECT,
+    wsDisconnect: DISCONNECT,
+    wsOnOpen: WS_CONNECTION_OPEN,
+    wsOnError: WS_CONNECTION_ERROR,
+    wsOnClose: WS_CONNECTION_CLOSE,
+    wsOnMessage: WS_GET_MESSAGE, 
+    wsSendMessage: WS_SEND_MESSAGE
+}
+
 
 export const connect = (url) => {
     return {
