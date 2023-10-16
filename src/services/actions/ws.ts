@@ -20,17 +20,17 @@ export interface IDisconnect {
 
 export interface IWsConnectionOpen {
     readonly type: typeof WS_CONNECTION_OPEN;
-    readonly payload: any;
+    readonly payload: Event;
 }
 
 export interface IWsConnectionError {
     readonly type: typeof WS_CONNECTION_ERROR;
-    readonly payload: any
+    readonly payload: Event
 }
 
 export interface IWsConnectionClose {
     readonly type: typeof WS_CONNECTION_CLOSE;
-    readonly payload: any;
+    readonly payload: Event;
 }
 
 export interface IWsGetMessage {
@@ -40,7 +40,7 @@ export interface IWsGetMessage {
 
 export interface IWsSendMEssage {
     readonly type: typeof WS_SEND_MESSAGE
-    readonly payload: any;
+    readonly payload: Event;
 }
 
 export type TWsAction = 

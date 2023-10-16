@@ -17,9 +17,7 @@ declare global {
   }
 }
 
-// Типизируйте composeEnhancers
 const composeEnhancers = window.REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
-
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 

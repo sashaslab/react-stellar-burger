@@ -52,11 +52,6 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient, moveIngredient }) => {
 
     drag(drop(ref))
 
-
-    function deleteIngredient(item: any) {
-        dispatch(deleteConstructorIngredient(item))
-    }
-
     return (
 
         <li ref={ref} style={{ opacity }} key={ingredient.key} className={`${style.item}`}><DragIcon type='primary' />
@@ -64,7 +59,7 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient, moveIngredient }) => {
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
-                handleClose={() => deleteIngredient(ingredient.key)}
+                handleClose={() => ingredient.key ? dispatch(deleteConstructorIngredient(ingredient.key)) : null}
             />
         </li>
 
